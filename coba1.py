@@ -1,0 +1,1 @@
+print("kelompok 6")
