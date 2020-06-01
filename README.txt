@@ -25,5 +25,11 @@ Pilih 3  : Kita dapat menambahkan buku yang ingin ditambahkan
            Setelah itu buku ditambah ke list
 diberi pilihan Lanjut atau Keluar
 Pilih 4  : Kita dapat Mengembalikan buku sesuai yang kita pinjam
-         
-     
+           Misal:Mengembalikan Al-Quran
+Setelah itu kita diberikan pilihan Keluar atau Lanjut
+Lalu pilih Keluar
+
+
+
+Selesai
+
