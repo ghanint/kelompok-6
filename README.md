@@ -1,2 +1,2 @@
-# Kelompok6
-Sistem Perpustakaan
+# Kelompok 6
+Sistem Peminjaman Buku di Perpustakaan
