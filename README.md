@@ -24,6 +24,6 @@ Pilih 3  : Kita dapat menambahkan buku yang ingin ditambahkan
            Misal:Buku Baca Tukang Bubur naik Haji Episode 2225
            Setelah itu buku ditambah ke list
 diberi pilihan Lanjut atau Keluar
-Pilih 4  : Kita dapat Mengembalikan buku sesuai ynag kita pinjam
+Pilih 4  : Kita dapat Mengembalikan buku sesuai yang kita pinjam
          
      
