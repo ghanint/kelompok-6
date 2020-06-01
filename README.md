@@ -1,2 +1,2 @@
-# kelompok6
+# Kelompok6
 Sistem Perpustakaan
