@@ -1,30 +1,99 @@
+import csv
+import os
+
+csv_filename = 'databuku.csv'
+
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+
 class Perpustakaan:
-    def __init__(self, list, nama):
-        self.ListBuku = list
+    def __init__(self, nama):
         self.nama = nama
-        self.BukuTerpinjam = {}
 
     def displayBuku(self):
+        
         print(f"Berikut merupakan daftar buku yang dimiliki Perpustakaan {self.nama}")
         for buku in self.ListBuku:
             print(buku)
 
     def PinjamBuku(self, user, buku):
-        if buku not in self.BukuTerpinjam.keys():
-            self.BukuTerpinjam.update({buku:user})
-            print("Perpustakaan HMTI telah berhasil merekam peminjaman")
-        else:
-            print(f"Maaf, buku ini telah dipinjam oleh {self.BukuTerpinjam[buku]}")
+        self.databuku = []
+        hmti.displayBuku()
+        no = input("Masukkan nomor urut buku yang ingin dipinjamkan:  ")
+        peminjam = input("Masukkan nama peminjam:  ")
+
+        indeks = 0
+        for data in self.databuku:
+            if (data['NO'] == no):
+                self.databuku[indeks]['PEMINJAM'] = peminjam
+            indeks = indeks + 1
+
+        with open(csv_filename, mode="w") as csv_file:
+            fieldnames = ['NO', 'JUDUL BUKU', 'PENGARANG', 'PEMINJAM']
+            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+            writer.writeheader()
+            for new_data in self.databuku:
+                writer.writerow({'NO': new_data['NO'], 'JUDUL BUKU': new_data['JUDUL BUKU'], 'PENGARANG': new_data['PENGARANG'], 'PEMINJAM': new_data['PEMINJAM']}) 
+
+        loop=True
+        count=1
+        while loop==True:
+            choice=str(input("Apakah ada buku lain yang ingin dipinjam? Tekan Y untuk yes dan tekan N untuk no:  "))
+            if(choice.upper()=="Y"):
+                count=count+1
+                no = input("Masukkan nomor urut buku yang ingin dipinjamkan:  ")
+                indeks = 0
+                for data in self.databuku:
+                    if (data['NO'] == no):
+                        self.databuku[indeks]['PEMINJAM'] = peminjam
+                    indeks = indeks + 1
+
+                with open(csv_filename, mode="w") as csv_file:
+                    fieldnames = ['NO', 'JUDUL BUKU', 'PENGARANG', 'PEMINJAM']
+                    writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+                    writer.writeheader()
+                    for new_data in self.databuku:
+                        writer.writerow({'NO': new_data['NO'], 'JUDUL BUKU': new_data['JUDUL BUKU'], 'PENGARANG': new_data['PENGARANG'], 'PEMINJAM': new_data['PEMINJAM']})
+                loop=False
+                break
+            elif (choice.upper()=="N"):
+                print("")
+                loop=False
+            else:
+                print("Pilihan yang dimasukkan salah")
+
+        print("Buku sudah terpinjam")
+
 
     def TambahBuku(self, buku):
         self.ListBuku.append(buku)
         print("buku telah ditambahkan ke dalam list")
 
     def KembalikanBuku(self, buku):
-        self.BukuTerpinjam.pop(buku)
+        self.databuku = []
+        hmti.displayBuku()
+        no = input("Nomor buku yang ingin dikembalikan: ")
+        peminjam = 0
+
+        indeks = 0
+        for data in self.databuku:
+            if (data['NO'] == no):
+                self.databuku[indeks]['PEMINJAM'] = peminjam
+            indeks = indeks + 1
+
+        with open(csv_filename, mode="w") as csv_file:
+            fieldnames = ['NO', 'JUDUL BUKU', 'PENGARANG', 'PEMINJAM']
+            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+            writer.writeheader()
+            for new_data in self.databuku:
+                writer.writerow({'NO': new_data['NO'], 'JUDUL BUKU': new_data['JUDUL BUKU'], 'PENGARANG': new_data['PENGARANG'], 'PEMINJAM': new_data['PEMINJAM']})
+
+        print("Buku sudah dikembalikan")
+        
        
 if __name__ == '__main__':
-    hmti = Perpustakaan(['Al-Quran', 'Al-kitab', 'Weda', 'Tripitaka', 'Shishu Wujing'], "HMTI")
+    hmti = Perpustakaan("HMTI")
 
     while (True):
         print("======================================================================================")
@@ -35,7 +104,7 @@ if __name__ == '__main__':
         print("|  4. Kembalikan buku                                                                |")
         print("======================================================================================")
         user_choice = input("Input = ")
-        if user_choice not in ['1', '2', '3', '4']:
+        if user_choice not in ['1', '2', '3', '4', '0']:
             print("!!!Tolong masukkan nomor opsi menu yang tersedia!!!")
             continue
 
@@ -46,28 +115,25 @@ if __name__ == '__main__':
             hmti.displayBuku()
 
         elif user_choice == 2:
-            buku = input("Masukkan judul buku yang ingin dipinjamkan \nInput = ")
-            user = input("Masukkan nama peminjam \nInput = ")
-            hmti.PinjamBuku(user, buku)
+            hmti.PinjamBuku()
 
         elif user_choice == 3:
-            buku = input("Masukkan judul buku yang ingin ditambahkan \nInput = ")
-            hmti.TambahBuku(buku)
+            hmti.displayBuku()
+            no = input("NO: ")
+            judul_buku = input("JUDUL BUKU: ")
+            pengarang = input("PENGARANG: ")
+            hmti.TambahBuku(no, judul_buku, pengarang)
 
         elif user_choice == 4:
-            buku = input("Masukkan judul buku yang ingin dikembalikan \nInput = ")
-            hmti.KembalikanBuku(buku)
+            hmti.KembalikanBuku()
+        
+        elif user_choice == 0:
+            exit()
 
         else:
             print("Opsi yang dimasukkan tidak valid")
 
-        print("\nTekan K untuk keluar dan L untuk lanjut")
-        user_choice2 = ""
-        while(user_choice2!="L" and user_choice2!="K"):
-            user_choice2 = input()
-            if user_choice2 == "K":
-                exit()
-
-            elif user_choice2 == "L":
-                continue
+        print("\n")
+        input("Tekan tombol apa saja untuk kembali...")
+        continue
 
