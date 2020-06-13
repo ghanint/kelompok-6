@@ -118,8 +118,9 @@ class Perpustakaan:
        
 if __name__ == '__main__':
     hmti = Perpustakaan("HMTI")
-    clear_screen()
+    
     while (True):
+        clear_screen()
         print("======================================================================================")
         print(f"|  Selamat datang di Perpustakaan {hmti.nama}. Silahkan pilih menu untuk melanjutkan        |")
         print("|  1. Tampilkan buku                                                                 |")
