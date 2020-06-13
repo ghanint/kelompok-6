@@ -56,7 +56,7 @@ class Perpustakaan:
         loop=True
         count=1
         while loop==True:
-            choice=str(input("Apakah ada buku lain yang ingin dipinjam? Tekan Y untuk yes dan tekan N untuk no:  "))
+            choice=str(input("Sekali peminjaman maksimal 2 buku sekaligus. Apakah ada buku lain yang ingin dipinjam? Tekan Y untuk YES dan tekan N untuk NO:  "))
             if(choice.upper()=="Y"):
                 count=count+1
                 no = input("Masukkan nomor urut buku yang ingin dipinjamkan:  ")
