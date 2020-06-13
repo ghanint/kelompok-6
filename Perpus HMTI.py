@@ -4,20 +4,37 @@ import os
 csv_filename = 'databuku.csv'
 
 def clear_screen():
+    
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
 class Perpustakaan:
+    
     def __init__(self, nama):
+        
         self.nama = nama
 
     def displayBuku(self):
         
         print(f"Berikut merupakan daftar buku yang dimiliki Perpustakaan {self.nama}")
-        for buku in self.ListBuku:
-            print(buku)
+        self.databuku = []
+    
+        with open(csv_filename, mode="r") as csv_file:
+            csv_reader = csv.DictReader(csv_file)
+            for row in csv_reader:
+                self.databuku.append(row)
+            
+        print("NO \t JUDUL BUKU \t\t\t PENGARANG \t\t PEMINJAM")
+        print("-" * 74)
 
-    def PinjamBuku(self, user, buku):
+        for data in self.databuku:
+            print(f"{data['NO']} \t {data['JUDUL BUKU']} \t\t {data['PENGARANG']}\t\t {data['PEMINJAM']}")
+
+        print("-" * 74)
+                  
+
+    def PinjamBuku(self):
+                  
         self.databuku = []
         hmti.displayBuku()
         no = input("Masukkan nomor urut buku yang ingin dipinjamkan:  ")
@@ -66,11 +83,18 @@ class Perpustakaan:
         print("Buku sudah terpinjam")
 
 
-    def TambahBuku(self, buku):
-        self.ListBuku.append(buku)
-        print("buku telah ditambahkan ke dalam list")
+    def TambahBuku(self, no, judul_buku, pengarang):
+                  
+        with open(csv_filename, mode='a') as csv_file:
+            fieldnames = ['NO', 'JUDUL BUKU', 'PENGARANG']
+            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
-    def KembalikanBuku(self, buku):
+            writer.writerow({'NO': no, 'JUDUL BUKU': judul_buku, 'PENGARANG': pengarang})
+            print("Buku telah ditambahkan ke dalam list")
+                  
+
+    def KembalikanBuku(self):
+                  
         self.databuku = []
         hmti.displayBuku()
         no = input("Nomor buku yang ingin dikembalikan: ")
