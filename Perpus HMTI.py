@@ -24,21 +24,20 @@ def menu_awal():
             a=int(input("pilih menu 1-5: "))
             print()
             if(a==1):
-                clear_screen()
-                with open("stock.txt","r+") as f:
-                    lines=f.read()
-                    print(lines)
-                    print ()
-   
+                display_buku()
+                kembali()
             elif(a==2):
                 listSplit()
                 pinjamkan_buku()
+                kembali()
             elif(a==3):
                 listSplit()
                 kembalikan_buku()
+                kembali()
             elif(a==4):
                 listSplit()
                 tambah_buku()
+                kembali()
             elif(a==5):
                 print("Terimakasih telah menggunakan sistem perpustakaan HMTI")
                 break
@@ -87,6 +86,12 @@ def getTime():
     now=datetime.datetime.now
     return str(now().time())
 
+def display_buku():
+    with open("stock.txt","r+") as f:
+        lines=f.read()
+        print(lines)
+        print ()
+
 def tambah_buku():
     with open("stock.txt", "a+") as f:
         judul = input("judul = ")
@@ -108,6 +113,8 @@ def pinjamkan_buku():
         if lastName.isalpha():
             break
         print("Masukkan huruf A-Z")
+        print("")
+    display_buku()
             
     t="Pinjaman-"+firstName+".txt"
     with open(t,"w+") as f:
@@ -134,7 +141,6 @@ def pinjamkan_buku():
                         for i in range(7):
                             f.write(judul_buku[i]+","+pengarang[i]+","+str(jumlah_stok[i])+","+"Rp"+harga[i]+"\n")
                             continue
-
 
                     #jika buku yang dipinjam lebih dari 1
                     loop=True
@@ -232,7 +238,6 @@ def kembalikan_buku():
     with open("stock.txt","r+") as f:
             for i in range(7):
                 f.write(judul_buku[i]+","+pengarang[i]+","+str(jumlah_stok[i])+","+"Rp"+harga[i]+"\n")
-    kembali()
 
 
 
