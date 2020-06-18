@@ -1,164 +1,239 @@
 import csv
-import os
+import os 
+import sys
 
-csv_filename = 'databuku.csv'
 
 def clear_screen():
-    
     os.system('cls' if os.name == 'nt' else 'clear')
 
+def kembali():
+    print("\n")
+    input("Tekan tombol apa saja untuk kembali...")
+    clear_screen()
 
-class Perpustakaan:
-    
-    def __init__(self, nama):
-        
-        self.nama = nama
-
-    def displayBuku(self):
-        
-        print(f"Berikut merupakan daftar buku yang dimiliki Perpustakaan {self.nama}")
-        self.databuku = []
-    
-        with open(csv_filename, mode="r") as csv_file:
-            csv_reader = csv.DictReader(csv_file)
-            for row in csv_reader:
-                self.databuku.append(row)
-            
-        print("NO \t JUDUL BUKU \t\t\t PENGARANG \t\t PEMINJAM")
-        print("-" * 74)
-
-        for data in self.databuku:
-            print(f"{data['NO']} \t {data['JUDUL BUKU']} \t\t {data['PENGARANG']}\t\t {data['PEMINJAM']}")
-
-        print("-" * 74)
-                  
-
-    def PinjamBuku(self):
-                  
-        self.databuku = []
-        hmti.displayBuku()
-        no = input("Masukkan nomor urut buku yang ingin dipinjamkan:  ")
-        peminjam = input("Masukkan nama peminjam:  ")
-
-        indeks = 0
-        for data in self.databuku:
-            if (data['NO'] == no):
-                self.databuku[indeks]['PEMINJAM'] = peminjam
-            indeks = indeks + 1
-
-        with open(csv_filename, mode="w") as csv_file:
-            fieldnames = ['NO', 'JUDUL BUKU', 'PENGARANG', 'PEMINJAM']
-            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-            writer.writeheader()
-            for new_data in self.databuku:
-                writer.writerow({'NO': new_data['NO'], 'JUDUL BUKU': new_data['JUDUL BUKU'], 'PENGARANG': new_data['PENGARANG'], 'PEMINJAM': new_data['PEMINJAM']}) 
-
-        loop=True
-        count=1
-        while loop==True:
-            choice=str(input("Sekali peminjaman maksimal 2 buku sekaligus. Apakah ada buku lain yang ingin dipinjam? Tekan Y untuk YES dan tekan N untuk NO:  "))
-            if(choice.upper()=="Y"):
-                count=count+1
-                no = input("Masukkan nomor urut buku yang ingin dipinjamkan:  ")
-                indeks = 0
-                for data in self.databuku:
-                    if (data['NO'] == no):
-                        self.databuku[indeks]['PEMINJAM'] = peminjam
-                    indeks = indeks + 1
-
-                with open(csv_filename, mode="w") as csv_file:
-                    fieldnames = ['NO', 'JUDUL BUKU', 'PENGARANG', 'PEMINJAM']
-                    writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-                    writer.writeheader()
-                    for new_data in self.databuku:
-                        writer.writerow({'NO': new_data['NO'], 'JUDUL BUKU': new_data['JUDUL BUKU'], 'PENGARANG': new_data['PENGARANG'], 'PEMINJAM': new_data['PEMINJAM']})
-                loop=False
+def menu_awal():
+    while(True):
+        print("        Selamat Datang di Perpustakaan HMTI           ")
+        print("------------------------------------------------------")
+        print(" 1 Untuk Tampilkan Buku")
+        print(" 2 Untuk Pinjamkan Buku")
+        print(" 3 Untuk Kembalikan Buku")  
+        print(" 4 Untuk Tambahkan Buku")
+        print(" 5 Untuk Keluar") 
+        try:
+            a=int(input("pilih menu 1-5: "))
+            print()
+            if(a==1):
+                clear_screen()
+                with open("stock.txt","r+") as f:
+                    lines=f.read()
+                    print(lines)
+                    print ()
+   
+            elif(a==2):
+                listSplit()
+                pinjamkan_buku()
+            elif(a==3):
+                listSplit()
+                kembalikan_buku()
+            elif(a==4):
+                listSplit()
+                tambah_buku()
+            elif(a==5):
+                print("Terimakasih telah menggunakan sistem perpustakaan HMTI")
                 break
-            elif (choice.upper()=="N"):
-                print("")
-                loop=False
             else:
-                print("Pilihan yang dimasukkan salah")
-
-        print("Buku sudah terpinjam")
-
-
-    def TambahBuku(self, no, judul_buku, pengarang):
-                  
-        with open(csv_filename, mode='a') as csv_file:
-            fieldnames = ['NO', 'JUDUL BUKU', 'PENGARANG']
-            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-
-            writer.writerow({'NO': no, 'JUDUL BUKU': judul_buku, 'PENGARANG': pengarang})
-            print("Buku telah ditambahkan ke dalam list")
-                  
-
-    def KembalikanBuku(self):
-                  
-        self.databuku = []
-        hmti.displayBuku()
-        no = input("Nomor buku yang ingin dikembalikan: ")
-        peminjam = 0
-
-        indeks = 0
-        for data in self.databuku:
-            if (data['NO'] == no):
-                self.databuku[indeks]['PEMINJAM'] = peminjam
-            indeks = indeks + 1
-
-        with open(csv_filename, mode="w") as csv_file:
-            fieldnames = ['NO', 'JUDUL BUKU', 'PENGARANG', 'PEMINJAM']
-            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-            writer.writeheader()
-            for new_data in self.databuku:
-                writer.writerow({'NO': new_data['NO'], 'JUDUL BUKU': new_data['JUDUL BUKU'], 'PENGARANG': new_data['PENGARANG'], 'PEMINJAM': new_data['PEMINJAM']})
-
-        print("Buku sudah dikembalikan")
-        
-       
-if __name__ == '__main__':
-    hmti = Perpustakaan("HMTI")
-    
-    while (True):
-        clear_screen()
-        print("======================================================================================")
-        print(f"|  Selamat datang di Perpustakaan {hmti.nama}. Silahkan pilih menu untuk melanjutkan        |")
-        print("|  1. Tampilkan buku                                                                 |")
-        print("|  2. Pinjamkan buku                                                                 |")
-        print("|  3. Tambahkan buku                                                                 |")
-        print("|  4. Kembalikan buku                                                                |")
-        print("======================================================================================")
-        user_choice = input("Input = ")
-        if user_choice not in ['1', '2', '3', '4', '0']:
-            print("!!!Tolong masukkan nomor opsi menu yang tersedia!!!")
+                print("Masukkan angka 1-5")
+                kembali()
+                continue
+        except ValueError:
+            print("masukkan sesuai petunjuk !")
+            kembali()
             continue
 
-        else:
-            user_choice = int(user_choice)
-
-        if user_choice == 1:
-            hmti.displayBuku()
-
-        elif user_choice == 2:
-            hmti.PinjamBuku()
-
-        elif user_choice == 3:
-            hmti.displayBuku()
-            no = input("NO: ")
-            judul_buku = input("JUDUL BUKU: ")
-            pengarang = input("PENGARANG: ")
-            hmti.TambahBuku(no, judul_buku, pengarang)
-
-        elif user_choice == 4:
-            hmti.KembalikanBuku()
+def listSplit():
+    global judul_buku
+    global pengarang
+    global jumlah_stok
+    global harga
+    judul_buku=[]
+    pengarang=[]
+    jumlah_stok=[]
+    harga=[]
+    with open("stock.txt","r+") as f:
         
-        elif user_choice == 0:
-            exit()
+        lines=f.readlines()
+        lines=[x.strip('\n') for x in lines]
+        for i in range(len(lines)):
+            ind=0
+            for a in lines[i].split(','):
+                if(ind==0):
+                    judul_buku.append(a)
+                elif(ind==1):
+                    pengarang.append(a)
+                elif(ind==2):
+                    jumlah_stok.append(a)
+                elif(ind==3):
+                    harga.append(a.strip("Rp"))
+                ind+=1
 
-        else:
-            print("Opsi yang dimasukkan tidak valid")
+def getDate():
+    import datetime
+    now=datetime.datetime.now
+    return str(now().date())
 
-        print("\n")
-        input("Tekan tombol apa saja untuk kembali...")
-        continue
+def getTime():
+    import datetime
+    now=datetime.datetime.now
+    return str(now().time())
 
+def tambah_buku():
+    with open("stock.txt", "a+") as f:
+        judul = input("judul = ")
+        pengarang = input("pengarang = ")
+        stok = input("stok = ")
+        harga = input("harga = Rp ")   
+        pembatas = ","
+        f.write('\n' + judul + pembatas + pengarang + pembatas + stok + pembatas + 'Rp' + harga)
+
+def pinjamkan_buku():
+    success=False
+    while(True):
+        firstName=input("Masukkan nama depan peminjam: ")
+        if firstName.isalpha():
+            break
+        print("Masukkan huruf A-Z")
+    while(True):
+        lastName=input("Masukkan nama belakang peminjam: ")
+        if lastName.isalpha():
+            break
+        print("Masukkan huruf A-Z")
+            
+    t="Pinjaman-"+firstName+".txt"
+    with open(t,"w+") as f:
+        f.write("               Perpustakaan HMTI  \n")
+        f.write("                   Dipinjam oleh: "+ firstName+" "+lastName+"\n")
+        f.write("    Tanggal: " + getDate()+"    Waktu:"+ getTime()+"\n\n")
+        f.write("S.N. \t\t Judul buku \t      Pengarang \n" )
+
+    while success==False:
+        print("Pilih menu di bawah ini :")
+        for i in range(len(judul_buku)):
+            print("Masukkan", i, "untuk meminjam buku", judul_buku[i])
+    
+        try:   
+            a=int(input())
+            try:
+                if(int(jumlah_stok[a])>0):
+                    print("Buku Tersedia")
+                    with open(t,"a") as f:
+                        f.write("1. \t\t"+ judul_buku[a]+"\t\t  "+pengarang[a]+"\n")
+
+                    jumlah_stok[a]=int(jumlah_stok[a])-1
+                    with open("stock.txt","r+") as f:
+                        for i in range(7):
+                            f.write(judul_buku[i]+","+pengarang[i]+","+str(jumlah_stok[i])+","+"Rp"+harga[i]+"\n")
+                            continue
+
+
+                    #jika buku yang dipinjam lebih dari 1
+                    loop=True
+                    count=1
+                    while loop==True:
+                        choice=str(input("Apakah ingin pinjam buku lagi ? Masukkan y jika ya dan n jika tidak."))
+                        if(choice.upper()=="Y"):
+                            count=count+1
+                            print("Pilih menu di bawah ini :")
+                            for i in range(len(judul_buku)):
+                                print("Masukkan", i, "untuk meminjam buku", judul_buku[i])
+                            a=int(input())
+                            if(int(jumlah_stok[a])>0):
+                                print("Buku tersedia")
+                                with open(t,"a") as f:
+                                    f.write(str(count) +". \t\t"+ judul_buku[a]+"\t\t  "+pengarang[a]+"\n")
+
+                                jumlah_stok[a]=int(jumlah_stok[a])-1
+                                with open("stock.txt","r+") as f:
+                                    for i in range(7):
+                                        f.write(judul_buku[i]+","+pengarang[i]+","+str(jumlah_stok[i])+","+"Rp"+harga[i]+"\n")
+                                        success=False
+                                        continue
+                            else:
+                                loop=False
+                                continue
+                        elif (choice.upper()=="N"):
+                            print ("Terimakasih telah meminjam buku. ")
+                            print("")
+                            loop=False
+                            success=True
+                        else:
+                            print("Masukkan sesuai petunjuk !")
+                        
+                else:
+                    print("Buku tidak tersedia")
+                    pinjamkan_buku()
+                    success=False
+                    continue
+            except IndexError:
+                print("")
+                print("Pilih buku sesuai nomor.")
+        except ValueError:
+            print("")
+            print("Pilih sesuai petunjuk !.")
+
+def kembalikan_buku():
+    name=input("Masukkan nama peminjam: ")
+    a="Pinjaman-"+name+".txt"
+    try:
+        with open(a,"r") as f:
+            lines=f.readlines()
+            lines=[a.strip("Rp") for a in lines]
+    
+        with open(a,"r") as f:
+            data=f.read()
+            print(data)
+    except:
+        print("Nama peminjam salah")
+        kembalikan_buku()
+
+    b="Pengembalian-"+name+".txt"
+    with open(b,"w+")as f:
+        f.write("                Perpustakaan HMTI \n")
+        f.write("                   Dikembalikan oleh: "+ name+"\n")
+        f.write("    Tanggal: " + getDate()+"    Waktu:"+ getTime()+"\n\n")
+        f.write("S.N.\t\tJudul Buku\t\tTotal\n")
+
+
+    total=0.0
+    for i in range(7):
+        if judul_buku[i] in data:
+            with open(b,"a") as f:
+                f.write(str(i+1)+"\t\t"+judul_buku[i]+"\t\tRp"+harga[i]+"\n")
+                jumlah_stok[i]=int(jumlah_stok[i])+1
+            total+=float(harga[i])
+            
+    print("\t\t\t\t\t\t\t"+"Rp"+str(total))
+    print("Apakah buku melewati batas peminjaman?")
+    print("Masukkan Y jika ya dan N jika tidak")
+    stat=input()
+    if(stat.upper()=="Y"):
+        print("Berapa hari keterlambatan?")
+        hari=int(input())
+        denda=3000*hari
+        with open(b,"a+")as f:
+            f.write("\t\t\t\t\tDenda: Rp"+ str(denda)+"\n")
+        total=total+denda
+    
+    print("Total pembayaran: "+ "Rp"+str(total))
+    with open(b,"a")as f:
+        f.write("\t\t\t\t\tTotal: Rp"+ str(total))
+    
+        
+    with open("stock.txt","r+") as f:
+            for i in range(7):
+                f.write(judul_buku[i]+","+pengarang[i]+","+str(jumlah_stok[i])+","+"Rp"+harga[i]+"\n")
+    kembali()
+
+
+
+menu_awal()
