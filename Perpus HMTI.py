@@ -138,7 +138,7 @@ def pinjamkan_buku():
 
                     jumlah_stok[a]=int(jumlah_stok[a])-1
                     with open("stock.txt","r+") as f:
-                        for i in range(7):
+                        for i in range(8):
                             f.write(judul_buku[i]+","+pengarang[i]+","+str(jumlah_stok[i])+","+"Rp"+harga[i]+"\n")
                             continue
 
@@ -160,7 +160,7 @@ def pinjamkan_buku():
 
                                 jumlah_stok[a]=int(jumlah_stok[a])-1
                                 with open("stock.txt","r+") as f:
-                                    for i in range(7):
+                                    for i in range(8):
                                         f.write(judul_buku[i]+","+pengarang[i]+","+str(jumlah_stok[i])+","+"Rp"+harga[i]+"\n")
                                         success=False
                                         continue
@@ -211,7 +211,7 @@ def kembalikan_buku():
 
 
     total=0.0
-    for i in range(7):
+    for i in range(8):
         if judul_buku[i] in data:
             with open(b,"a") as f:
                 f.write(str(i+1)+"\t\t"+judul_buku[i]+"\t\tRp"+harga[i]+"\n")
@@ -236,7 +236,7 @@ def kembalikan_buku():
     
         
     with open("stock.txt","r+") as f:
-            for i in range(7):
+            for i in range(8):
                 f.write(judul_buku[i]+","+pengarang[i]+","+str(jumlah_stok[i])+","+"Rp"+harga[i]+"\n")
 
 
